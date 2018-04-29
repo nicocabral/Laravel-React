@@ -37,7 +37,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User();
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = bcrypt($request['password']);
+        $user->save();
+        return $user ? response()->json(['success' => true, 'message'=> 'Created successfully!']) : respone()->json(['success'=>false,'message'=>'An error occured']);
     }
 
     /**
@@ -60,6 +65,9 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+
+        $user = User::find($id);
+        return $user;
     }
 
     /**
@@ -82,6 +90,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return $user ? response()->json(['success'=>true,'message'=>'Deleted Successfully']) : response()->json(['success'=>false,'message'=>'An error occured while deleting the data']);
     }
 }

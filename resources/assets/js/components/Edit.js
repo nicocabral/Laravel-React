@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-export default class Create extends React.Component{
+export default class Edit extends React.Component{
 	constructor(){
 		super();
 		this.state = {
@@ -10,6 +10,9 @@ export default class Create extends React.Component{
 			email:'',
 			password:''
 		}
+	}
+	componentWillMount(){
+		console.log(this.props.id);
 	}
 	handleNameChange(e){
 		this.setState({
@@ -63,7 +66,7 @@ export default class Create extends React.Component{
 							<div className="form-group">
 								<div className="col-md-12">
 								<span className="pull-right">
-									<button className="btn btn-primary" type="submit">Save</button>
+									<button className="btn btn-primary" type="submit">Update</button>
 								</span>
 								</div>
 							</div>
@@ -76,7 +79,7 @@ export default class Create extends React.Component{
 }
 
 
-if (document.getElementById('create')) {
-
-    ReactDOM.render(<Create/>, document.getElementById('create'))
+if (document.getElementById('edit')) {
+	var id = $('#edit').data('id');
+    ReactDOM.render(<Edit id={id}/>, document.getElementById('edit'))
 }

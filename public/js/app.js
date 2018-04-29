@@ -10273,6 +10273,7 @@ window.axios = __webpack_require__(51);
 
 __webpack_require__(117);
 __webpack_require__(218);
+__webpack_require__(230);
 
 /***/ }),
 /* 93 */
@@ -41150,6 +41151,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41191,6 +41194,8 @@ var User = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
 				null,
@@ -41240,40 +41245,7 @@ var User = function (_React$Component) {
 						'tbody',
 						null,
 						this.state.data.map(function (user, i) {
-							return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'tr',
-								null,
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									'td',
-									null,
-									user.id
-								),
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									'td',
-									null,
-									user.name
-								),
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									'td',
-									null,
-									user.email
-								),
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									'td',
-									null,
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										'a',
-										{ href: '', className: 'btn btn-primary' },
-										'Edit'
-									),
-									' |',
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										'a',
-										{ href: '', className: 'btn btn-danger' },
-										'Delete'
-									)
-								)
-							);
+							return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(UserRow, { key: i, i: i, user: user, object: _this2 });
 						})
 					)
 				)
@@ -41286,6 +41258,71 @@ var User = function (_React$Component) {
 
 /* harmony default export */ __webpack_exports__["default"] = (User);
 
+var UserRow = function (_User) {
+	_inherits(UserRow, _User);
+
+	function UserRow() {
+		_classCallCheck(this, UserRow);
+
+		return _possibleConstructorReturn(this, (UserRow.__proto__ || Object.getPrototypeOf(UserRow)).apply(this, arguments));
+	}
+
+	_createClass(UserRow, [{
+		key: 'deleteUser',
+		value: function deleteUser(user, object) {
+			var _this4 = this;
+
+			console.log(user);
+			var $this = object;
+			axios.delete('/api/users/' + user.id).then(function (response) {
+				console.log(response);
+				_get(UserRow.prototype.__proto__ || Object.getPrototypeOf(UserRow.prototype), 'componentWillMount', _this4).call(_this4);
+			}).catch(function (error) {
+				console.log(error);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'tr',
+				{ key: this.props.i },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					this.props.user.id
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					this.props.user.name
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					this.props.user.email
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'td',
+					null,
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'a',
+						{ href: "users/" + this.props.user.id + "/edit", className: 'btn btn-primary' },
+						'Edit'
+					),
+					' |',
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'button',
+						{ className: 'btn btn-danger', onClick: this.deleteUser.bind(this, this.props.user, this.props.object) },
+						'Delete'
+					)
+				)
+			);
+		}
+	}]);
+
+	return UserRow;
+}(User);
 
 if (document.getElementById('app')) {
 
@@ -53828,7 +53865,11 @@ var Create = function (_React$Component) {
 		key: 'handleSubmit',
 		value: function handleSubmit(e) {
 			e.preventDefault();
-			console.log(this.state);
+			axios.post('/api/users', this.state).then(function (response) {
+				console.log(response);
+			}).catch(function (error) {
+				console.log(error);
+			});
 		}
 	}, {
 		key: 'render',
@@ -53924,6 +53965,179 @@ if (document.getElementById('create')) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Edit = function (_React$Component) {
+	_inherits(Edit, _React$Component);
+
+	function Edit() {
+		_classCallCheck(this, Edit);
+
+		var _this = _possibleConstructorReturn(this, (Edit.__proto__ || Object.getPrototypeOf(Edit)).call(this));
+
+		_this.state = {
+			name: '',
+			email: '',
+			password: ''
+		};
+		return _this;
+	}
+
+	_createClass(Edit, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			console.log(this.props.id);
+		}
+	}, {
+		key: 'handleNameChange',
+		value: function handleNameChange(e) {
+			this.setState({
+				name: e.target.value
+
+			});
+		}
+	}, {
+		key: 'handleEmailChange',
+		value: function handleEmailChange(e) {
+			this.setState({
+				email: e.target.value
+			});
+		}
+	}, {
+		key: 'handlePasswordChange',
+		value: function handlePasswordChange(e) {
+			this.setState({
+				password: e.target.value
+			});
+		}
+	}, {
+		key: 'handleSubmit',
+		value: function handleSubmit(e) {
+			e.preventDefault();
+			axios.post('/api/users', this.state).then(function (response) {
+				console.log(response);
+			}).catch(function (error) {
+				console.log(error);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				null,
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'h2',
+					null,
+					'Add New User'
+				),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'form',
+					{ className: 'form-horizontal', onSubmit: this.handleSubmit.bind(this) },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'label',
+							{ className: 'control-label col-sm-2' },
+							'Name'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-md-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'name', name: 'name', placeholder: 'Enter your name', value: this.state.name, onChange: this.handleNameChange.bind(this) })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'label',
+							{ className: 'control-label col-sm-2' },
+							'Email'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-md-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'email', className: 'form-control', id: 'email', name: 'email', placeholder: 'Enter your Email', value: this.state.email, onChange: this.handleEmailChange.bind(this) })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'label',
+							{ className: 'control-label col-sm-2' },
+							'Password'
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-md-10' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'password', className: 'form-control', id: 'password', name: 'password', placeholder: 'Enter your password', value: this.state.password, onChange: this.handlePasswordChange.bind(this) })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						{ className: 'form-group' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'col-md-12' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'span',
+								{ className: 'pull-right' },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									'button',
+									{ className: 'btn btn-primary', type: 'submit' },
+									'Update'
+								)
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return Edit;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Edit);
+
+
+if (document.getElementById('edit')) {
+	var id = $('#edit').data('id');
+	__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Edit, { id: id }), document.getElementById('edit'));
+}
 
 /***/ })
 /******/ ]);
